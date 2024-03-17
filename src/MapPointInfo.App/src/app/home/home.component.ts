@@ -1,32 +1,45 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { GoogleMap, GoogleMapsModule, MapMarker } from '@angular/google-maps'
+import { BrowserModule } from '@angular/platform-browser';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [],
+  imports: [GoogleMapsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements AfterViewInit {
-  @ViewChild('yourIframe', { static: false }) yourIframe!: ElementRef;
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap | undefined
+
+  marker: any = {
+    position: {
+      lat: 23.97565,
+      lng: 120.9738819
+    },
+    label: {
+      color: 'red'
+    },
+    title: 'asdasd title',
+    
+    options: { animation: google.maps.Animation.DROP },
+  };
 
   constructor() {
-
   }
 
   ngAfterViewInit() {
 
   }
 
-  aa() {
-    // 確認 yourIframe 不為 undefined
-    if (this.yourIframe && this.yourIframe.nativeElement) {
-      const iframeElement = this.yourIframe.nativeElement;
-      const iframeDocument = iframeElement.contentDocument || iframeElement.contentWindow.document;
-        const htmlElement = iframeDocument.querySelector('html');
-        htmlElement.setAttribute('data-bs-theme', 'dark');
-    }
+  center: google.maps.LatLngLiteral = {
+    lat: 23.97565,
+    lng: 120.9738819,
+  };
+  zoom = 8;
+
+  aa(marker: any){
+    alert(marker.title)
   }
 }
