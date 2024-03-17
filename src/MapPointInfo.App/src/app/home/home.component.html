@@ -1,36 +1,27 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row min-vh-100">
         <div class="col-4">
             <google-map height="100%" width="100%" [zoom]="zoom" [center]="center">
-                <map-marker [position]="marker.position" [label]="marker.label"
-                    [title]="marker.title" [options]="marker.options" (mapClick)="aa(marker)">
+                <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label"
+                    [title]="marker.title" (mapClick)="aa(marker)">
                 </map-marker>
             </google-map>
         </div>
         <div class="col-5">
-            <div class="col-md-4">
-
-            </div>
-            <div class="col-md-4">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/WcbfxLPFVz8?si=TLNeQ8RFZyZa1ok2"
+            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/WcbfxLPFVz8?si=TLNeQ8RFZyZa1ok2"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe>
-            </div>
-            <div class="col-md-4">
-
-            </div>
-
+                    allowfullscreen></iframe> -->
 
 
 
         </div>
         <div class="col-3">
-            <iframe width='465' height='500' frameborder='0'
+            <!-- <iframe width='465' height='500' frameborder='0'
                 src='https://connect.garmin.com/modern/activity/embed/13923922686' title='新竹縣尖石鄉薰衣草林道(B)'></iframe>
 
             <iframe class="aa" width='465' frameborder='0'
-                src="https://embed.windy.com/embed2.html?lat=25.050&lon=121.532&detailLat=25.050&detailLon=121.532&width=650&height=450&zoom=5&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1"></iframe>
+                src="https://embed.windy.com/embed2.html?lat=25.050&lon=121.532&detailLat=25.050&detailLon=121.532&width=650&height=450&zoom=5&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1"></iframe> -->
         </div>
     </div>
 </div>
