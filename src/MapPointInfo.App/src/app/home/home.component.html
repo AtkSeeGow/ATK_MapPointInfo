@@ -3,15 +3,20 @@
         <div class="col-4">
             <google-map height="100%" width="100%" mapId="fcc36b61505ecdf9" [zoom]="zoom" [center]="center">
                 @for (marker of markers; track marker) {
-                    <map-advanced-marker [position]="marker.position" [title]="marker.title" (mapClick)="aa(marker)" />
+                <map-advanced-marker [position]="marker.position" [title]="marker.title"
+                    (mapClick)="getSelectedMarkerInfos(marker)" />
                 }
             </google-map>
         </div>
         <div class="col-5">
-            <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/WcbfxLPFVz8?si=TLNeQ8RFZyZa1ok2"
-                    title="YouTube video player" frameborder="0"
+            <select (change)="getSelectedMarkerInfo($event)">
+                <option *ngFor="let item of selectedMarkerInfoDateTimes" [value]="item">{{item}}</option>
+            </select>
+
+
+            <iframe width="560" height="315" [src]="bypassSecurityTrustResourceUrl(selectedMarkerInfo.youTubeLink)" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen></iframe> -->
+                    allowfullscreen></iframe>
 
 
 
