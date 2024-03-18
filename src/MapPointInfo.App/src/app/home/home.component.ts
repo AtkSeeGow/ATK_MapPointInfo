@@ -16,6 +16,7 @@ export class HomeComponent implements AfterViewInit {
   markers: any[] = [];
 
   constructor(private http: HttpClient) {
+   
     this.http.get<any>('assets/data/markers.json').subscribe(data => {
       data.forEach((item: any) => {
         this.markers.push(item)
@@ -24,7 +25,6 @@ export class HomeComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-
   }
 
   center: google.maps.LatLngLiteral = {

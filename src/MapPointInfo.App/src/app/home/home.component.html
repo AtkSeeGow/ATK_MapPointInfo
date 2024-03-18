@@ -1,10 +1,10 @@
 <div class="container-fluid">
     <div class="row min-vh-100">
         <div class="col-4">
-            <google-map height="100%" width="100%" [zoom]="zoom" [center]="center">
-                <map-marker *ngFor="let marker of markers" [position]="marker.position" [label]="marker.label"
-                    [title]="marker.title" (mapClick)="aa(marker)">
-                </map-marker>
+            <google-map height="100%" width="100%" mapId="fcc36b61505ecdf9" [zoom]="zoom" [center]="center">
+                @for (marker of markers; track marker) {
+                    <map-advanced-marker [position]="marker.position" [title]="marker.title" (mapClick)="aa(marker)" />
+                }
             </google-map>
         </div>
         <div class="col-5">
