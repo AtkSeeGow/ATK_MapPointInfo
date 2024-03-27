@@ -19,7 +19,7 @@ export class HomeComponent implements AfterViewInit {
   markerInfos: any[] = [];
   
   selectedMarkerInfos: any[] = [];
-  selectedMarkerInfo: any = { "youTubeLink": "https://www.youtube.com/embed/mmujjwPHa10?si=QsNpnU8vost4tP6I"};
+  selectedMarkerInfo: any = {};
   selectedMarkerInfoDateTimes: string[] = [];
 
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
@@ -31,8 +31,9 @@ export class HomeComponent implements AfterViewInit {
 
     this.http.get<any>('assets/data/markerInfos.json').subscribe(data => {
       data.forEach((item: any) => {
-        this.markerInfos.push(item)
+        this.markerInfos.push(item);
       });
+      this.getSelectedMarkerInfos({"title": this.markerInfos[0].title})
     });
   }
 
