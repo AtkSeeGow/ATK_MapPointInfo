@@ -1,8 +1,0 @@
-@font-face {
-    font-family: gensen;
-    src: url('../../assets/fonts/gensen.woff');
-}
-
-.subtract-garmin-height {
-    height: calc(100vh - 515px);
-}

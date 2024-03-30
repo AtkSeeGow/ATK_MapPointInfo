@@ -1,28 +1,32 @@
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
-import { GoogleMap, GoogleMapsModule, MapAdvancedMarker } from '@angular/google-maps'
+import { GoogleMap, GoogleMapsModule, MapAdvancedMarker, MapInfoWindow, MapMarker } from '@angular/google-maps'
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { SafePipe } from '../pipes/safe.pipe';
+import { InfoWindowOptions, MapOptions } from './home.options';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [GoogleMapsModule, HttpClientModule, CommonModule, FormsModule],
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  imports: [GoogleMapsModule, HttpClientModule, CommonModule, FormsModule, SafePipe],
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements AfterViewInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap | undefined
+  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
 
   markers: any[] = [];
   markerInfos: any[] = [];
-  
+
   selectedMarkerInfos: any[] = [];
   selectedMarkerInfo: any = {};
   selectedMarkerInfoDateTimes: string[] = [];
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) {
+  mapOptions: MapOptions = new MapOptions();
+  infoWindowOptions: InfoWindowOptions = new InfoWindowOptions();
+
+  constructor(private http: HttpClient) {
     this.http.get<any>('assets/data/markers.json').subscribe(data => {
       data.forEach((item: any) => {
         this.markers.push(item)
@@ -33,35 +37,24 @@ export class HomeComponent implements AfterViewInit {
       data.forEach((item: any) => {
         this.markerInfos.push(item);
       });
-      this.getSelectedMarkerInfos({"title": this.markerInfos[0].title})
     });
   }
 
   ngAfterViewInit() {
   }
 
-  center: google.maps.LatLngLiteral = {
-    lat: 23.97565,
-    lng: 120.9738819,
-  };
-  zoom = 8;
-
-  getSelectedMarkerInfos(marker: any){
-    this.selectedMarkerInfos = this.markerInfos.filter(item => marker.title == item.title);
+  getSelectedMarkerInfos(mapAdvancedMarker: any) {
+    this.selectedMarkerInfos = this.markerInfos.filter(item => mapAdvancedMarker._title == item.title);
     this.selectedMarkerInfoDateTimes = []
     this.selectedMarkerInfos.forEach((item: any) => {
       this.selectedMarkerInfoDateTimes.push(item.dateTime)
     });
-    this.getSelectedMarkerInfo({ "target": { "value": this.selectedMarkerInfoDateTimes[0] }});
+    this.getSelectedMarkerInfo({ "target": { "value": this.selectedMarkerInfoDateTimes[0] } });
+    this.infoWindow!.openAdvancedMarkerElement(mapAdvancedMarker.advancedMarker);
   }
 
-  getSelectedMarkerInfo(event: any)
-  {
+  getSelectedMarkerInfo(event: any) {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.selectedMarkerInfo = this.selectedMarkerInfos.filter(item => item.dateTime == selectedValue)[0];
-  }
-
-  bypassSecurityTrustResourceUrl(url: string){
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
 }
