@@ -1,0 +1,39 @@
+<google-map height="100vh" width="100%" [mapId]="mapOptions.mapId" [zoom]="mapOptions.zoom" [center]="mapOptions.center">
+    @for (marker of markers; track marker) {
+        <map-advanced-marker #mapAdvancedMarker="mapAdvancedMarker" [position]="marker.position" [title]="marker.title" (mapClick)="getSelectedMarkerInfos(mapAdvancedMarker)" />
+    }
+    <map-info-window [options]="infoWindowOptions" style="display: block;">
+        <form class="row" style="margin: 0px;">
+            <div class="col-md-3">
+                <label class="form-label">活動日期</label>
+                <select (change)="getSelectedMarkerInfo($event)" class="form-select">
+                    <option *ngFor="let item of selectedMarkerInfoDateTimes" [value]="item">{{item}}</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">使用車型</label>
+                <input type="text" class="form-control" [value]="selectedMarkerInfo.model">
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">備註</label>
+                <input type="text" class="form-control" [value]="selectedMarkerInfo.remark">
+            </div>
+        </form>
+        <br>
+        <table>
+            <tbody>
+                <tr>
+                    <td width="700">
+                        <iframe *ngIf="selectedMarkerInfo.youTubeLink" width="100%" height='500' [src]="selectedMarkerInfo.youTubeLink | safe" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen></iframe>
+                    </td>
+                    <td width='465'>
+                        <iframe *ngIf="selectedMarkerInfo.garminLink" width='100%' height='500' frameborder='0'
+                            [src]="selectedMarkerInfo.garminLink | safe"></iframe>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </map-info-window>
+</google-map>
