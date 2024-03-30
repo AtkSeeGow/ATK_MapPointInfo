@@ -10,7 +10,8 @@ import { InfoWindowOptions, MapOptions } from './home.options';
   selector: 'app-home',
   standalone: true,
   imports: [GoogleMapsModule, HttpClientModule, CommonModule, FormsModule, SafePipe],
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
 export class HomeComponent implements AfterViewInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap | undefined
@@ -47,6 +48,8 @@ export class HomeComponent implements AfterViewInit {
     this.selectedMarkerInfos = this.markerInfos.filter(item => mapAdvancedMarker._title == item.title);
     this.selectedMarkerInfoDateTimes = []
     this.selectedMarkerInfos.forEach((item: any) => {
+      item.lat = mapAdvancedMarker._position.lat;
+      item.lng = mapAdvancedMarker._position.lng;
       this.selectedMarkerInfoDateTimes.push(item.dateTime)
     });
     this.getSelectedMarkerInfo({ "target": { "value": this.selectedMarkerInfoDateTimes[0] } });

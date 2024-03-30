@@ -3,37 +3,35 @@
         <map-advanced-marker #mapAdvancedMarker="mapAdvancedMarker" [position]="marker.position" [title]="marker.title" (mapClick)="getSelectedMarkerInfos(mapAdvancedMarker)" />
     }
     <map-info-window [options]="infoWindowOptions" style="display: block;">
-        <form class="row" style="margin: 0px;">
-            <div class="col-md-3">
-                <label class="form-label">活動日期</label>
-                <select (change)="getSelectedMarkerInfo($event)" class="form-select">
-                    <option *ngFor="let item of selectedMarkerInfoDateTimes" [value]="item">{{item}}</option>
-                </select>
+        <div class="cc">
+            <form class="row" style="margin: 0px; ">
+                <div class="col-md-3">
+                    <label class="form-label">活動日期</label>
+                    <select (change)="getSelectedMarkerInfo($event)" class="form-select">
+                        <option *ngFor="let item of selectedMarkerInfoDateTimes" [value]="item">{{item}}</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">使用車型</label>
+                    <input type="text" class="form-control" [value]="selectedMarkerInfo.model">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">備註</label>
+                    <input type="text" class="form-control" [value]="selectedMarkerInfo.remark">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">功能</label>
+                    <a class="btn btn-primary form-control" href="https://www.google.com/maps/search/?api=1&query={{selectedMarkerInfo.lat}}%2C{{selectedMarkerInfo.lng}}" role="button" target="_blank">Open</a>
+                </div>
+            </form>
+            <br>
+            <div class="aa">
+                <div class="bb"><iframe *ngIf="selectedMarkerInfo.youTubeLink" width="100%" height='500' [src]="selectedMarkerInfo.youTubeLink | safe" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe></div>
+                <div> <iframe *ngIf="selectedMarkerInfo.garminLink" width='465' height='500' frameborder='0'
+                    [src]="selectedMarkerInfo.garminLink | safe"></iframe></div>
             </div>
-            <div class="col-md-3">
-                <label class="form-label">使用車型</label>
-                <input type="text" class="form-control" [value]="selectedMarkerInfo.model">
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">備註</label>
-                <input type="text" class="form-control" [value]="selectedMarkerInfo.remark">
-            </div>
-        </form>
-        <br>
-        <table>
-            <tbody>
-                <tr>
-                    <td width="700">
-                        <iframe *ngIf="selectedMarkerInfo.youTubeLink" width="100%" height='500' [src]="selectedMarkerInfo.youTubeLink | safe" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen></iframe>
-                    </td>
-                    <td width='465'>
-                        <iframe *ngIf="selectedMarkerInfo.garminLink" width='100%' height='500' frameborder='0'
-                            [src]="selectedMarkerInfo.garminLink | safe"></iframe>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        </div>
     </map-info-window>
 </google-map>

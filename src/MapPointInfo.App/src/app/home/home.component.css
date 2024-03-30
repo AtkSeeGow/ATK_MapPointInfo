@@ -1,0 +1,17 @@
+.aa {
+    display: flex;
+}
+
+.bb {
+    width: calc(100% - 465px);
+}
+
+.cc {
+    width: 75vw;
+}
+
+@media only screen and (max-width: 766px) {
+    .aa {
+        display: none;
+    }
+}
