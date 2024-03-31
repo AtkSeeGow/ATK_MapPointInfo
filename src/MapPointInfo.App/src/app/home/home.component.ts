@@ -21,7 +21,7 @@ export class HomeComponent implements AfterViewInit {
   markerInfos: any[] = [];
 
   selectedMarkerInfos: any[] = [];
-  selectedMarkerInfo: any = {};
+  selectedMarkerInfo: any = null;
   selectedMarkerInfoDateTimes: string[] = [];
 
   mapOptions: MapOptions = new MapOptions();
