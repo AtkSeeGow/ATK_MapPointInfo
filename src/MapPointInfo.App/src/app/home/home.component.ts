@@ -50,6 +50,7 @@ export class HomeComponent implements AfterViewInit {
     this.selectedMarkerInfos.forEach((item: any) => {
       item.lat = mapAdvancedMarker._position.lat;
       item.lng = mapAdvancedMarker._position.lng;
+      item.garminLink = "https://connect.garmin.com/modern/activity/embed/" + item.garminConnectId
       this.selectedMarkerInfoDateTimes.push(item.dateTime)
     });
     this.getSelectedMarkerInfo({ "target": { "value": this.selectedMarkerInfoDateTimes[0] } });

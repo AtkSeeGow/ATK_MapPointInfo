@@ -18,15 +18,15 @@
                     <input type="text" class="form-control mb-2" [value]="selectedMarkerInfo.remark">
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">定位</label>
+                    <label class="form-label">開啟定位</label>
                     <a class="btn btn-primary form-control mb-2"
                         href="https://www.google.com/maps/search/?api=1&query={{selectedMarkerInfo.lat}}%2C{{selectedMarkerInfo.lng}}"
                         role="button" target="_blank">Open</a>
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">路線</label>
+                    <label class="form-label">詳細資訊</label>
                     <a class="btn btn-primary form-control mb-2"
-                        href="https://www.google.com/maps/search/?api=1&query={{selectedMarkerInfo.lat}}%2C{{selectedMarkerInfo.lng}}"
+                        href="https://connect.garmin.com/modern/activity/{{selectedMarkerInfo.garminConnectId}}"
                         role="button" target="_blank">Open</a>
                 </div>
             </form>
