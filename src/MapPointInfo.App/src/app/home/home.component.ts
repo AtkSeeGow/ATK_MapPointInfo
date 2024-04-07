@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SafePipe } from '../pipes/safe.pipe';
 import { InfoWindowOptions, MapOptions } from './home.options';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ import { InfoWindowOptions, MapOptions } from './home.options';
 export class HomeComponent implements AfterViewInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap | undefined
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
-
+  
   markers: any[] = [];
   markerInfos: any[] = [];
 
@@ -28,15 +29,28 @@ export class HomeComponent implements AfterViewInit {
   infoWindowOptions: InfoWindowOptions = new InfoWindowOptions();
 
   constructor(private http: HttpClient) {
-    this.http.get<any>('assets/data/markers.json').subscribe(data => {
-      data.forEach((item: any) => {
-        this.markers.push(item)
-      });
-    });
+    
+    forkJoin({
+      markers : this.http.get<any>('assets/data/markers.json'),
+      markerInfos: this.http.get<any>('assets/data/markerInfos.json')
+    }).subscribe(async data => {
+      const {PinElement} = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary
 
-    this.http.get<any>('assets/data/markerInfos.json').subscribe(data => {
-      data.forEach((item: any) => {
+      data.markerInfos.forEach((item: any) => {
         this.markerInfos.push(item);
+      });
+
+      data.markers.forEach((item: any) => {
+        var markerInfos = this.markerInfos.filter(markerInfo => item.title == markerInfo.title);
+
+        var background = "red";
+        if(markerInfos.length == 0)
+          background = "yellow"
+
+        item.content =  new PinElement({
+          background: background,
+        }).element;
+        this.markers.push(item)
       });
     });
   }
@@ -46,6 +60,10 @@ export class HomeComponent implements AfterViewInit {
 
   getSelectedMarkerInfos(mapAdvancedMarker: any) {
     this.selectedMarkerInfos = this.markerInfos.filter(item => mapAdvancedMarker._title == item.title);
+
+    if(this.selectedMarkerInfos.length == 0)
+      this.selectedMarkerInfos[0] = { "dateTime": "9999/12/31 23:59:59", "remark": "資料準備中..." };
+    
     this.selectedMarkerInfoDateTimes = []
     this.selectedMarkerInfos.forEach((item: any) => {
       item.lat = mapAdvancedMarker._position.lat;

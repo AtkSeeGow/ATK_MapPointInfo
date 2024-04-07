@@ -2,11 +2,11 @@
     [center]="mapOptions.center">
     @for (marker of markers; track marker) {
     <map-advanced-marker #mapAdvancedMarker="mapAdvancedMarker" [position]="marker.position" [title]="marker.title"
-        (mapClick)="getSelectedMarkerInfos(mapAdvancedMarker)" />
+        (mapClick)="getSelectedMarkerInfos(mapAdvancedMarker)" [content]="marker.content" />
     }
     <map-info-window [options]="infoWindowOptions" style="display:block;">
-        <div class="cc" *ngIf="selectedMarkerInfo">
-            <form class="row" style="margin: 0px;">
+        <div class="infoWindowLayout" *ngIf="selectedMarkerInfo">
+            <form class="row margin">
                 <div class="col-md-3">
                     <label class="form-label">活動日期</label>
                     <select class="form-select mb-2" (change)="getSelectedMarkerInfo($event)">
@@ -31,14 +31,14 @@
                 </div>
             </form>
             <br>
-            <div class="aa">
-                <div class="videobox">
+            <div class="iframeLayout">
+                <div class="videoLayout">
                     <iframe *ngIf="selectedMarkerInfo.youTubeLink" width="100%" height="100%"
                         [src]="selectedMarkerInfo.youTubeLink | safe" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowfullscreen></iframe>
                 </div>
-                <div class="dd"> <iframe *ngIf="selectedMarkerInfo.garminLink" width='465' height='500' frameborder='0'
+                <div class="garminLayout"> <iframe *ngIf="selectedMarkerInfo.garminLink" width='465' height='500' frameborder='0'
                         [src]="selectedMarkerInfo.garminLink | safe"></iframe></div>
             </div>
         </div>

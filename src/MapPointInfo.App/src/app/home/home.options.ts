@@ -8,5 +8,5 @@ export class MapOptions {
 }
 
 export class InfoWindowOptions implements google.maps.InfoWindowOptions {
-  maxWidth: number = 1500;
+  maxWidth: number = 1400;
 }

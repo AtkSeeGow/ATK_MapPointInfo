@@ -1,32 +1,37 @@
-.aa {
+.margin {
+    margin: 0px;
+}
+
+.iframeLayout {
     display: flex;
 }
 
-.videobox {
+.videoLayout {
     width: calc(100% - 465px);
 }
 
-.cc {
+.infoWindowLayout {
     width: 75vw;
+    max-width: 1350px;
 }
 
-.dd {
+.garminLayout {
     display:block;
 }
 
 @media only screen and (max-width: 766px) {
-    .cc {
+    .infoWindowLayout {
         width: 100%;
     }
 
-    .videobox {
+    .videoLayout {
         position: relative;
         width: 100%;
         height: 0;
         padding-bottom: 56.25%;
     }
     
-    .videobox iframe {
+    .videoLayout iframe {
         position: absolute;
         top: 0;
         left: 0;
@@ -34,24 +39,24 @@
         height: 100%;
     }
 
-    .dd {
+    .garminLayout {
         display: none;
     }
 }
 
 @media only screen and (max-width: 1400px) and (min-width: 768px) {
-    .aa {
+    .iframeLayout {
         display: block;
     }
 
-    .videobox {
+    .videoLayout {
         position: relative;
         width: 100%;
         height: 0;
         padding-bottom: 56.25%;
     }
     
-    .videobox iframe {
+    .videoLayout iframe {
         position: absolute;
         top: 0;
         left: 0;
@@ -59,7 +64,7 @@
         height: 100%;
     }
 
-    .dd {
+    .garminLayout {
         display: none;
     }
 }
