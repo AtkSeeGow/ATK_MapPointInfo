@@ -7,6 +7,8 @@ import { SafePipe } from '../pipes/safe.pipe';
 import { InfoWindowOptions, MapOptions } from './home.options';
 import { forkJoin } from 'rxjs';
 
+declare let $:any;
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -29,7 +31,6 @@ export class HomeComponent implements AfterViewInit {
   infoWindowOptions: InfoWindowOptions = new InfoWindowOptions();
 
   constructor(private http: HttpClient) {
-    
     forkJoin({
       markers : this.http.get<any>('assets/data/markers.json'),
       markerInfos: this.http.get<any>('assets/data/markerInfos.json')
@@ -52,6 +53,14 @@ export class HomeComponent implements AfterViewInit {
         }).element;
         this.markers.push(item)
       });
+
+      const centerControlDiv = document.createElement("div");
+      const centerControl = this.createCenterControl();
+      centerControlDiv.appendChild(centerControl);
+      this.map?.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
+
+      const portalDiv = document.getElementById('myModal')!;
+      this.map?.controls[google.maps.ControlPosition.LEFT_TOP].push(portalDiv);
     });
   }
 
@@ -79,4 +88,32 @@ export class HomeComponent implements AfterViewInit {
     const selectedValue = (event.target as HTMLSelectElement).value;
     this.selectedMarkerInfo = this.selectedMarkerInfos.filter(item => item.dateTime == selectedValue)[0];
   }
+
+  createCenterControl() {
+    const controlButton = document.createElement("button");
+  
+    // Set CSS for the control.
+    controlButton.style.backgroundColor = "#fff";
+    controlButton.style.border = "2px solid #fff";
+    controlButton.style.borderRadius = "3px";
+    controlButton.style.boxShadow = "0 2px 6px rgba(0,0,0,.3)";
+    controlButton.style.color = "rgb(25,25,25)";
+    controlButton.style.cursor = "pointer";
+    controlButton.style.fontFamily = "Roboto,Arial,sans-serif";
+    controlButton.style.fontSize = "16px";
+    controlButton.style.lineHeight = "38px";
+    controlButton.style.margin = "8px 0 22px";
+    controlButton.style.padding = "0 5px";
+    controlButton.style.textAlign = "center";
+    controlButton.textContent = "Center Map";
+    controlButton.title = "Click to recenter the map";
+    controlButton.type = "button";
+    // Setup the click event listeners: simply set the map to Chicago.
+    controlButton.addEventListener("click", () => {
+      $('#myModal').modal('show'); 
+    });
+    return controlButton;
+  }
+
+
 }
