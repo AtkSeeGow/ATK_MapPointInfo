@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using MapPointInfo.Domain.Enum;
 
 namespace MapPointInfo.Domain
 {

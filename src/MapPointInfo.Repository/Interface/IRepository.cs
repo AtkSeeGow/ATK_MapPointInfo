@@ -57,7 +57,7 @@ namespace MapPointInfo.Repository.Interface
         /// Deletes all.
         /// </summary>
         /// <returns></returns>
-        Task<long> DeleteAll();
+        Task<long> DeleteAll(Expression<Func<TEntity, bool>> filter);
 
         /// <summary>
         /// Exists the specified identifier.

@@ -7,7 +7,7 @@ import { SafePipe } from '../pipes/safe.pipe';
 import { InfoWindowOptions, MapOptions } from './home.options';
 import { forkJoin } from 'rxjs';
 
-declare let $:any;
+declare let $: any;
 
 @Component({
   selector: 'app-home',
@@ -19,7 +19,7 @@ declare let $:any;
 export class HomeComponent implements AfterViewInit {
   @ViewChild(GoogleMap, { static: false }) map: GoogleMap | undefined
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
-  
+
   markers: any[] = [];
   markerInfos: any[] = [];
 
@@ -32,10 +32,10 @@ export class HomeComponent implements AfterViewInit {
 
   constructor(private http: HttpClient) {
     forkJoin({
-      markers : this.http.get<any>('assets/data/markers.json'),
+      markers: this.http.get<any>('assets/data/markers.json'),
       markerInfos: this.http.get<any>('assets/data/markerInfos.json')
     }).subscribe(async data => {
-      const {PinElement} = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary
+      const { PinElement } = await google.maps.importLibrary("marker") as google.maps.MarkerLibrary
 
       data.markerInfos.forEach((item: any) => {
         this.markerInfos.push(item);
@@ -45,10 +45,10 @@ export class HomeComponent implements AfterViewInit {
         var markerInfos = this.markerInfos.filter(markerInfo => item.title == markerInfo.title);
 
         var background = "red";
-        if(markerInfos.length == 0)
+        if (markerInfos.length == 0)
           background = "yellow"
 
-        item.content =  new PinElement({
+        item.content = new PinElement({
           background: background,
         }).element;
         this.markers.push(item)
@@ -56,6 +56,7 @@ export class HomeComponent implements AfterViewInit {
 
       const centerControlDiv = document.createElement("div");
       const centerControl = this.createCenterControl();
+
       centerControlDiv.appendChild(centerControl);
       this.map?.controls[google.maps.ControlPosition.RIGHT_TOP].push(centerControlDiv);
 
@@ -70,9 +71,9 @@ export class HomeComponent implements AfterViewInit {
   getSelectedMarkerInfos(mapAdvancedMarker: any) {
     this.selectedMarkerInfos = this.markerInfos.filter(item => mapAdvancedMarker._title == item.title);
 
-    if(this.selectedMarkerInfos.length == 0)
+    if (this.selectedMarkerInfos.length == 0)
       this.selectedMarkerInfos[0] = { "dateTime": "9999/12/31 23:59:59", "remark": "資料準備中..." };
-    
+
     this.selectedMarkerInfoDateTimes = []
     this.selectedMarkerInfos.forEach((item: any) => {
       item.lat = mapAdvancedMarker._position.lat;
@@ -91,7 +92,7 @@ export class HomeComponent implements AfterViewInit {
 
   createCenterControl() {
     const controlButton = document.createElement("button");
-  
+
     // Set CSS for the control.
     controlButton.style.backgroundColor = "#fff";
     controlButton.style.border = "2px solid #fff";
@@ -102,15 +103,25 @@ export class HomeComponent implements AfterViewInit {
     controlButton.style.fontFamily = "Roboto,Arial,sans-serif";
     controlButton.style.fontSize = "16px";
     controlButton.style.lineHeight = "38px";
-    controlButton.style.margin = "8px 0 22px";
+    controlButton.style.margin = "8px 10px 22px";
     controlButton.style.padding = "0 5px";
     controlButton.style.textAlign = "center";
-    controlButton.textContent = "Center Map";
+    controlButton.style.width = "40px";
+    controlButton.style.height = "40px";
     controlButton.title = "Click to recenter the map";
+    controlButton.className = "gm-fullscreen-control"
     controlButton.type = "button";
+
+    const icon = document.createElement("i");
+    icon.className = "bi bi-funnel-fill"; // Use any Font Awesome icon class
+    controlButton.appendChild(icon);
+
     // Setup the click event listeners: simply set the map to Chicago.
     controlButton.addEventListener("click", () => {
-      $('#myModal').modal('show'); 
+      $('#myModal').modal('show');
+
+      // 為修正全螢幕問題，導致未全螢幕會出現蓋住的問題，直接將該項目移除
+      $('.modal-backdrop').remove();
     });
     return controlButton;
   }

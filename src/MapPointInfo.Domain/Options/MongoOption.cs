@@ -3,16 +3,11 @@
     /// <summary>
     /// 
     /// </summary>
-    public class MongoDBOptions
+    public class MongoOption
     {
         /// <summary>
         /// 
         /// </summary>
         public required string ConnectionString { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public required string CollectionName { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace MapPointInfo.Domain
+﻿namespace MapPointInfo.Domain.Enum
 {
     /// <summary>
     /// 

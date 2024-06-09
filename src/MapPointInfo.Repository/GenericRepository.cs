@@ -3,6 +3,7 @@ using MapPointInfo.Domain.Options;
 using MapPointInfo.Repository.Interface;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using System.Linq.Expressions;
 
 namespace MapPointInfo.Repository
@@ -23,9 +24,9 @@ namespace MapPointInfo.Repository
 
         #region constructors
 
-        public GenericRepository(MongoDBOptions mongoDBOptions)
+        public GenericRepository(MongoOption mongoOption)
         {
-            var mongoUrl = new MongoUrl(mongoDBOptions.ConnectionString + mongoDBOptions.CollectionName);
+            var mongoUrl = new MongoUrl(mongoOption.ConnectionString);
             var client = new MongoClient(mongoUrl);
             this.bsonDocumentCollection = client.GetDatabase(mongoUrl.DatabaseName).GetCollection<BsonDocument>(getCollectionName());
             this.tEntityCollection = client.GetDatabase(mongoUrl.DatabaseName).GetCollection<TEntity>(getCollectionName());
@@ -78,15 +79,15 @@ namespace MapPointInfo.Repository
             return await TEntityCollection.Find(new BsonDocument()).ToListAsync();
         }
 
-        public virtual async Task<long> DeleteAll()
+        public virtual async Task<long> DeleteAll(Expression<Func<TEntity, bool>> filter)
         {
-            var task = await TEntityCollection.DeleteManyAsync(new BsonDocument());
+            var task = await TEntityCollection.DeleteManyAsync(filter);
             return task.DeletedCount;
         }
 
         public virtual async Task<IEnumerable<TEntity>> FindBy(Expression<Func<TEntity, bool>> filter)
         {
-            return await this.tEntityCollection.Find<TEntity>(filter).ToListAsync();
+            return await this.TEntityCollection.Find<TEntity>(filter).ToListAsync();
         }
 
         #endregion
@@ -124,5 +125,4 @@ namespace MapPointInfo.Repository
             return typeof(TEntity).Name;
         }
     }
-
 }

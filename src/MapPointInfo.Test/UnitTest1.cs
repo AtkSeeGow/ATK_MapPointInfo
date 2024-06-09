@@ -6,7 +6,6 @@ namespace MapPointInfo.Test
         [TestMethod]
         public void TestMethod1()
         {
-            int x = 1 + 1;
         }
     }
 }
