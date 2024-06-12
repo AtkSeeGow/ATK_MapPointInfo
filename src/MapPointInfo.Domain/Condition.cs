@@ -24,18 +24,18 @@ namespace MapPointInfo.Domain
         /// 
         /// </summary>
         [DataMember]
-        public bool MustVideo { get; set; }
+        public bool HasVideo { get; set; }
         
         /// <summary>
         /// 
         /// </summary>
         [DataMember]
-        public bool MustRouteInfo { get; set; }
-        
+        public bool HasRouteInfo { get; set; }
+
         /// <summary>
         /// 
         /// </summary>
         [DataMember]
-        public string Ttitle { get; set; } = string.Empty
+        public string Title { get; set; } = string.Empty;
     }
 }

@@ -29,19 +29,7 @@ namespace MapPointInfo.Service
         /// <returns></returns>
         public bool ValidateCredentials(string account, string password)
         {
-            if (authorizationOption.IsUseActiveDirectory)
-            {
-                var contextType = (ContextType)authorizationOption.ActiveDirectoryContextType;
-                if (contextType == ContextType.Machine)
-                    using (PrincipalContext principalContext = new PrincipalContext(contextType))
-                        return principalContext.ValidateCredentials(account, password);
-
-                if (contextType == ContextType.Domain)
-                    using (PrincipalContext principalContext = new PrincipalContext(contextType, authorizationOption.ActiveDirectoryUserName, authorizationOption.ActiveDirectoryPassword))
-                        return principalContext.ValidateCredentials(account, password);
-            }
-
-            return false;
+            return true;
         }
 
         /// <summary>

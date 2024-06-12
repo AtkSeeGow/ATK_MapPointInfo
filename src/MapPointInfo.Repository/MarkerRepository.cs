@@ -8,6 +8,7 @@ namespace MapPointInfo.Repository
         public MarkerRepository(MongoOption mongoOption) : base(mongoOption)
         {
         }
-    }
 
+
+    }
 }

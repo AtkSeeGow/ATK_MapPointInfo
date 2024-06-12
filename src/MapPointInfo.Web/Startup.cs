@@ -1,4 +1,5 @@
 using MapPointInfo.Domain.Options;
+using MapPointInfo.Repository;
 using MapPointInfo.Service;
 using MapPointInfo.Web.Handler;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,9 @@ namespace MapPointInfo.Web
             services.AddSingleton(provider => authorizationOption);
             services.AddSingleton(provider => tokenOption);
             services.AddSingleton(provider => mongoOption);
+
+            services.AddScoped<MarkerInfoRepository>();
+            services.AddScoped<MarkerRepository>();
 
             services.AddScoped<AuthorizationService>();
 
